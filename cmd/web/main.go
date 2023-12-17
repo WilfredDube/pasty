@@ -7,10 +7,9 @@ import (
 
 func main() {
 	router := gin.Default()
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "hello world",
-		})
-	})
-	router.Run()
+	router.GET("/", home)
+	router.GET("/paste/view", snippetView)
+	router.POST("/paste/create", snippetCreate)
+
+	router.Run(":4000")
 }
