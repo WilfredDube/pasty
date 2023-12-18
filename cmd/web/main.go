@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -12,6 +14,10 @@ func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 
 	flag.Parse()
+
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
 	router := gin.Default()
 
 	files := []string{
@@ -27,5 +33,13 @@ func main() {
 	router.GET("/paste/view", snippetView)
 	router.POST("/paste/create", snippetCreate)
 
-	router.Run(":4000")
+	srv := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errorLog,
+		Handler:  router,
+	}
+
+	infoLog.Printf("Starting server on %s", *addr)
+	err := srv.ListenAndServe()
+	errorLog.Fatal(err)
 }
