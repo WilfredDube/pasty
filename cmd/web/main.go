@@ -8,7 +8,13 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.LoadHTMLGlob("./ui/html/pages/*")
+	files := []string{
+		"./ui/html/base.tmpl",
+		"./ui/html/partials/nav.tmpl",
+		"./ui/html/pages/home.tmpl",
+	}
+
+	router.LoadHTMLFiles(files...)
 	router.Static("/assets", "./ui/static/")
 
 	router.GET("/", home)
