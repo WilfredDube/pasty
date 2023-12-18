@@ -1,11 +1,17 @@
 package main
 
 import (
+	"flag"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	addr := flag.String("addr", ":4000", "HTTP network address")
+
+	flag.Parse()
 	router := gin.Default()
 
 	files := []string{
