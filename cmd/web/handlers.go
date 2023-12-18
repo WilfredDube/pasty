@@ -8,7 +8,7 @@ import (
 )
 
 func home(c *gin.Context) {
-	c.HTML(http.StatusOK, "home.tmpl", nil)
+	c.HTML(http.StatusOK, "base", nil)
 }
 
 func snippetView(c *gin.Context) {
